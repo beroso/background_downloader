@@ -22,6 +22,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -404,7 +405,7 @@ class TaskWorker(
         prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         withContext(Dispatchers.IO) {
             Timer().schedule(taskTimeoutMillis) {
-                isTimedOut = true
+                // isTimedOut = true
             }
             val gson = Gson()
             val taskJsonMapString = inputData.getString(keyTask)
@@ -1095,7 +1096,7 @@ class TaskWorker(
      * will be shown
      */
     @SuppressLint("MissingPermission")
-    private fun updateNotification(
+    private suspend fun updateNotification(
         task: Task, notificationType: NotificationType, progress: Double = 2.0
     ) {
         val notification = when (notificationType) {
@@ -1178,7 +1179,7 @@ class TaskWorker(
                     return
                 }
             }
-            notify(notificationId, builder.build())
+            setForeground(ForegroundInfo(notificationId, builder.build()))
         }
     }
 
