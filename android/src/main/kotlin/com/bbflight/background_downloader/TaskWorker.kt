@@ -4,6 +4,7 @@ package com.bbflight.background_downloader
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -1076,6 +1077,7 @@ class TaskWorker(
             ).apply {
                 description = descriptionText
             }
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             // Register the channel with the system
             val notificationManager: NotificationManager = applicationContext.getSystemService(
                 NOTIFICATION_SERVICE
@@ -1135,7 +1137,7 @@ class TaskWorker(
         }
         val builder = NotificationCompat.Builder(
             applicationContext, BackgroundDownloaderPlugin.notificationChannel
-        ).setPriority(NotificationCompat.PRIORITY_LOW).setSmallIcon(iconDrawable)
+        ).setPriority(NotificationCompat.PRIORITY_LOW).setSmallIcon(iconDrawable).setOngoing(true)
         // use stored progress if notificationType is .paused
         notificationProgress =
             if (notificationType == NotificationType.paused) notificationProgress else progress
