@@ -1071,7 +1071,7 @@ class TaskWorker(
             val descriptionText = applicationContext.getString(
                 R.string.bg_downloader_notification_channel_description
             )
-            val importance = NotificationManager.IMPORTANCE_LOW
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(
                 BackgroundDownloaderPlugin.notificationChannel, name, importance
             ).apply {
@@ -1137,7 +1137,7 @@ class TaskWorker(
         }
         val builder = NotificationCompat.Builder(
             applicationContext, BackgroundDownloaderPlugin.notificationChannel
-        ).setPriority(NotificationCompat.PRIORITY_LOW).setSmallIcon(iconDrawable).setOngoing(true)
+        ).setPriority(NotificationCompat.PRIORITY_HIGH).setSmallIcon(iconDrawable).setOngoing(true)
         // use stored progress if notificationType is .paused
         notificationProgress =
             if (notificationType == NotificationType.paused) notificationProgress else progress
