@@ -960,7 +960,7 @@ class TaskWorker(
                             (bytesTotal + startByte).toDouble() / (contentLength + startByte),
                             0.999
                         )
-                        if (contentLength > 0 && progress - lastProgressUpdate > 0.02 && currentTimeMillis() > nextProgressUpdateTime) {
+                        if (contentLength > 0 && ((progress - lastProgressUpdate > 0.02 && currentTimeMillis() > nextProgressUpdateTime) || currentTimeMillis() > nextProgressUpdateTime + taskTimeoutMillis)) {
                             processProgressUpdate(task, progress, prefs, contentLength)
                             updateNotification(
                                 task, notificationTypeForTaskStatus(TaskStatus.running),
